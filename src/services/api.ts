@@ -1,8 +1,7 @@
 import type { ApiResponse, Book, Category, LoginResponse, User } from '@/types';
 
 // Set this to your deployed Google Apps Script Web App URL
-const API_BASE = localStorage.getItem('bookshelf_api_url') || 'https://script.google.com/macros/s/AKfycbwddpv4mCXinb3DXA_sQ_j5HN8YGEgXyhfCGo4cxtCvwOKWJV1yiAClbp8Fzww4lNX7/exec';
-
+const API_BASE = 'https://script.google.com/macros/s/AKfycbwddpv4mCXinb3DXA_sQ_j5HN8YGEgXyhfCGo4cxtCvwOKWJV1yiAClbp8Fzww4lNX7/exec';
 async function request<T>(action: string, params: Record<string, unknown> = {}): Promise<ApiResponse<T>> {
   if (!API_BASE) {
     return { success: false, error: 'API URL not configured. Go to Settings to set it.' };
@@ -22,14 +21,6 @@ async function request<T>(action: string, params: Record<string, unknown> = {}):
 }
 
 export const api = {
-  setApiUrl(url: string) {
-    localStorage.setItem('bookshelf_api_url', url);
-    window.location.reload();
-  },
-
-  getApiUrl() {
-    return localStorage.getItem('bookshelf_api_url') || '';
-  },
 
   // Auth
   login(email: string, pin: string) {

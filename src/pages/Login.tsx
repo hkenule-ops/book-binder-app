@@ -13,7 +13,6 @@ export default function Login() {
   const [email, setEmail] = useState('');
   const [pin, setPin] = useState('');
   const [loading, setLoading] = useState(false);
-  const [apiUrl, setApiUrl] = useState(api.getApiUrl());
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -21,10 +20,6 @@ export default function Login() {
     e.preventDefault();
     if (!email.trim() || !pin.trim()) {
       toast.error('Please enter both email and PIN');
-      return;
-    }
-    if (!api.getApiUrl()) {
-      toast.error('Please configure the API URL first (click the gear icon)');
       return;
     }
 
