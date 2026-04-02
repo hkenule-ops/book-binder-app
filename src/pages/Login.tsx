@@ -88,7 +88,7 @@ export default function Login() {
           </CardContent>
         </Card>
 
-        <div className="mt-4 flex justify-center">
+        {/* <div className="mt-4 flex justify-center">
           <Dialog>
             <DialogTrigger asChild>
               <Button variant="ghost" size="sm" className="text-muted-foreground">
@@ -118,7 +118,7 @@ export default function Login() {
               </div>
             </DialogContent>
           </Dialog>
-        </div>
+        </div> */}
       </div>
     </div>
   );

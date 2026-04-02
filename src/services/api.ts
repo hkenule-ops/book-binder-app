@@ -1,7 +1,7 @@
 import type { ApiResponse, Book, Category, LoginResponse, User } from '@/types';
 
 // Set this to your deployed Google Apps Script Web App URL
-const API_BASE = localStorage.getItem('bookshelf_api_url') || '';
+const API_BASE = localStorage.getItem('bookshelf_api_url') || 'https://script.google.com/macros/s/AKfycbwddpv4mCXinb3DXA_sQ_j5HN8YGEgXyhfCGo4cxtCvwOKWJV1yiAClbp8Fzww4lNX7/exec';
 
 async function request<T>(action: string, params: Record<string, unknown> = {}): Promise<ApiResponse<T>> {
   if (!API_BASE) {
