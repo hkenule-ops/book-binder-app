@@ -1,6 +1,7 @@
 export interface User {
   id: string;
   email: string;
+  name: string;  // Required name field
   role: 'admin' | 'student';
   categories: string[];
   created_at: string;

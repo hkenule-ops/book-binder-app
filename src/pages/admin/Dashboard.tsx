@@ -28,7 +28,7 @@ export default function AdminDashboard() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <Loader2 className="h-8 w-8 animate-spin" style={{ color: '#0F6E56' }} />
       </div>
     );
   }
@@ -36,9 +36,9 @@ export default function AdminDashboard() {
   const students = users.filter((u) => u.role === 'student');
 
   const stats = [
-    { label: 'Students', value: students.length, icon: Users, color: 'text-primary' },
-    { label: 'Categories', value: categories.length, icon: FolderOpen, color: 'text-accent' },
-    { label: 'Books', value: books.length, icon: BookOpen, color: 'text-warning' },
+    { label: 'Students', value: students.length, icon: Users, bg: '#0F6E56', iconColor: '#fff' },
+    { label: 'Courses', value: categories.length, icon: FolderOpen, bg: '#0a4a38', iconColor: '#fff' },
+    { label: 'Books', value: books.length, icon: BookOpen, bg: '#C0322A', iconColor: '#fff' },
   ];
 
   return (
@@ -50,13 +50,15 @@ export default function AdminDashboard() {
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {stats.map((s) => (
-          <Card key={s.label} className="border-border/50 shadow-sm hover:shadow-md transition-shadow">
+          <Card key={s.label} className="border-border/50 shadow-sm hover:shadow-md transition-shadow overflow-hidden">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">{s.label}</CardTitle>
-              <s.icon className={`h-5 w-5 ${s.color}`} />
+              <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: s.bg }}>
+                <s.icon className="h-4 w-4" style={{ color: s.iconColor }} />
+              </div>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold">{s.value}</div>
+              <div className="text-3xl font-bold" style={{ color: s.bg }}>{s.value}</div>
             </CardContent>
           </Card>
         ))}
@@ -65,16 +67,16 @@ export default function AdminDashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg">Recent Categories</CardTitle>
+            <CardTitle className="text-lg">Recent Courses</CardTitle>
           </CardHeader>
           <CardContent>
             {categories.length === 0 ? (
-              <p className="text-muted-foreground text-sm">No categories yet</p>
+              <p className="text-muted-foreground text-sm">No courses yet</p>
             ) : (
               <div className="space-y-2">
                 {categories.slice(0, 5).map((c) => (
-                  <div key={c.id} className="flex justify-between items-center p-2 rounded-md bg-muted/50">
-                    <span className="font-medium text-sm">{c.name}</span>
+                  <div key={c.id} className="flex justify-between items-center p-2 rounded-md" style={{ background: 'rgba(15,110,86,0.08)' }}>
+                    <span className="font-medium text-sm" style={{ color: '#0a4a38' }}>{c.name}</span>
                     <span className="text-xs text-muted-foreground">{c.description}</span>
                   </div>
                 ))}
@@ -93,10 +95,10 @@ export default function AdminDashboard() {
             ) : (
               <div className="space-y-2">
                 {students.slice(0, 5).map((s) => (
-                  <div key={s.id} className="flex justify-between items-center p-2 rounded-md bg-muted/50">
-                    <span className="font-medium text-sm">{s.email}</span>
+                  <div key={s.id} className="flex justify-between items-center p-2 rounded-md" style={{ background: 'rgba(15,110,86,0.08)' }}>
+                    <span className="font-medium text-sm" style={{ color: '#0a4a38' }}>{s.email}</span>
                     <span className="text-xs text-muted-foreground">
-                      {s.categories.length} {s.categories.length === 1 ? 'category' : 'categories'}
+                      {s.categories.length} {s.categories.length === 1 ? 'course' : 'course'}
                     </span>
                   </div>
                 ))}

@@ -1,7 +1,8 @@
 import type { ApiResponse, Book, Category, LoginResponse, User } from '@/types';
 
 // Set this to your deployed Google Apps Script Web App URL
-const API_BASE = 'https://script.google.com/macros/s/AKfycbwddpv4mCXinb3DXA_sQ_j5HN8YGEgXyhfCGo4cxtCvwOKWJV1yiAClbp8Fzww4lNX7/exec';
+const API_BASE = 'https://script.google.com/macros/s/AKfycbzss0XKqVktU4fjfnczV2FSu31WOZ-aGnRcBbY-ONxik9w6J9TocGti5by-T_4OH2lf/exec';
+
 async function request<T>(action: string, params: Record<string, unknown> = {}): Promise<ApiResponse<T>> {
   if (!API_BASE) {
     return { success: false, error: 'API URL not configured. Go to Settings to set it.' };
@@ -28,8 +29,8 @@ export const api = {
   },
 
   // Users
-  createUser(email: string, categories: string[]) {
-    return request<{ user: User; pin: string }>('createUser', { email, categories });
+  createUser(email: string, categories: string[], name: string) { // name is now required
+    return request<{ user: User; pin: string }>('createUser', { email, categories, name });
   },
 
   getUsers() {

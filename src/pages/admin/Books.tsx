@@ -59,7 +59,7 @@ export default function ManageBooks() {
     .filter((b) => b.title.toLowerCase().includes(search.toLowerCase()));
 
   if (loading) {
-    return <div className="flex items-center justify-center h-64"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>;
+    return <div className="flex items-center justify-center h-64"><Loader2 className="h-8 w-8 animate-spin" style={{ color: '#0F6E56' }} /></div>;
   }
 
   return (
@@ -71,7 +71,9 @@ export default function ManageBooks() {
         </div>
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
-            <Button><Plus className="mr-2 h-4 w-4" />Add Book</Button>
+            <Button style={{ background: '#0F6E56', color: '#fff', border: 'none' }}>
+              <Plus className="mr-2 h-4 w-4" />Add Book
+            </Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader><DialogTitle>Add Book</DialogTitle></DialogHeader>
@@ -85,9 +87,9 @@ export default function ManageBooks() {
                 <Input value={fileUrl} onChange={(e) => setFileUrl(e.target.value)} placeholder="https://drive.google.com/..." maxLength={500} />
               </div>
               <div>
-                <label className="text-sm font-medium mb-1.5 block">Category</label>
+                <label className="text-sm font-medium mb-1.5 block">Course</label>
                 <Select value={categoryId} onValueChange={setCategoryId}>
-                  <SelectTrigger><SelectValue placeholder="Select category" /></SelectTrigger>
+                  <SelectTrigger><SelectValue placeholder="Select course" /></SelectTrigger>
                   <SelectContent>
                     {categories.map((c) => (
                       <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>
@@ -95,7 +97,7 @@ export default function ManageBooks() {
                   </SelectContent>
                 </Select>
               </div>
-              <Button onClick={handleCreate} disabled={creating} className="w-full">
+              <Button onClick={handleCreate} disabled={creating} className="w-full" style={{ background: '#0F6E56', color: '#fff', border: 'none' }}>
                 {creating && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}Add Book
               </Button>
             </div>
@@ -111,7 +113,7 @@ export default function ManageBooks() {
         <Select value={filterCat} onValueChange={setFilterCat}>
           <SelectTrigger className="w-48"><SelectValue /></SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Categories</SelectItem>
+            <SelectItem value="all">All Courses</SelectItem>
             {categories.map((c) => (
               <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>
             ))}
@@ -122,7 +124,7 @@ export default function ManageBooks() {
       {filtered.length === 0 ? (
         <Card className="border-dashed">
           <CardContent className="flex flex-col items-center justify-center py-12 text-center">
-            <BookOpen className="h-12 w-12 text-muted-foreground mb-3" />
+            <BookOpen className="h-12 w-12 mb-3" style={{ color: '#0F6E56', opacity: 0.4 }} />
             <p className="text-muted-foreground">{search || filterCat !== 'all' ? 'No matching books' : 'No books yet'}</p>
           </CardContent>
         </Card>
@@ -132,13 +134,13 @@ export default function ManageBooks() {
             <Card key={b.id} className="group hover:shadow-md transition-shadow">
               <CardHeader className="flex flex-row items-start justify-between pb-2">
                 <CardTitle className="text-base line-clamp-2">{b.title}</CardTitle>
-                <Button variant="ghost" size="icon" className="opacity-0 group-hover:opacity-100 transition-opacity text-destructive shrink-0" onClick={() => handleDelete(b.id)}>
+                <Button variant="ghost" size="icon" className="opacity-0 group-hover:opacity-100 transition-opacity shrink-0" style={{ color: '#C0322A' }} onClick={() => handleDelete(b.id)}>
                   <Trash2 className="h-4 w-4" />
                 </Button>
               </CardHeader>
               <CardContent className="space-y-3">
-                <Badge variant="secondary">{catName(b.category_id)}</Badge>
-                <Button variant="outline" size="sm" className="w-full" asChild>
+                <Badge style={{ background: 'rgba(15,110,86,0.12)', color: '#0a4a38', border: 'none' }}>{catName(b.category_id)}</Badge>
+                <Button variant="outline" size="sm" className="w-full" style={{ borderColor: '#0F6E56', color: '#0F6E56' }} asChild>
                   <a href={b.file_url} target="_blank" rel="noopener noreferrer">
                     <ExternalLink className="mr-2 h-3 w-3" />Open in Drive
                   </a>

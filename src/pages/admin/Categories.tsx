@@ -32,7 +32,7 @@ export default function ManageCategories() {
     const res = await api.createCategory(name.trim(), description.trim());
     setCreating(false);
     if (res.success) {
-      toast.success('Category created');
+      toast.success('Course created');
       setName(''); setDescription(''); setOpen(false);
       load();
     } else {
@@ -41,10 +41,10 @@ export default function ManageCategories() {
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Delete this category?')) return;
+    if (!confirm('Delete this course?')) return;
     const res = await api.deleteCategory(id);
-    if (res.success) { toast.success('Deleted'); load(); }
-    else toast.error(res.error || 'Failed');
+    if (res.success) { toast.success('Course deleted'); load(); }
+    else toast.error(res.error || 'Failed to delete course');
   };
 
   const filtered = categories.filter((c) =>
@@ -52,32 +52,34 @@ export default function ManageCategories() {
   );
 
   if (loading) {
-    return <div className="flex items-center justify-center h-64"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>;
+    return <div className="flex items-center justify-center h-64"><Loader2 className="h-8 w-8 animate-spin" style={{ color: '#0F6E56' }} /></div>;
   }
 
   return (
     <div className="animate-fade-in space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold">Categories</h1>
+          <h1 className="text-2xl font-bold">Courses</h1>
           <p className="text-muted-foreground">Manage your bookshelves</p>
         </div>
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
-            <Button><Plus className="mr-2 h-4 w-4" />New Category</Button>
+            <Button style={{ background: '#0F6E56', color: '#fff', border: 'none' }}>
+              <Plus className="mr-2 h-4 w-4" />New Course
+            </Button>
           </DialogTrigger>
           <DialogContent>
-            <DialogHeader><DialogTitle>Create Category</DialogTitle></DialogHeader>
+            <DialogHeader><DialogTitle>Create Course</DialogTitle></DialogHeader>
             <div className="space-y-4">
               <div>
                 <label className="text-sm font-medium mb-1.5 block">Name</label>
-                <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Mathematics" maxLength={100} />
+                <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. full stack" maxLength={100} />
               </div>
               <div>
                 <label className="text-sm font-medium mb-1.5 block">Description</label>
                 <Textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Brief description..." maxLength={500} />
               </div>
-              <Button onClick={handleCreate} disabled={creating} className="w-full">
+              <Button onClick={handleCreate} disabled={creating} className="w-full" style={{ background: '#0F6E56', color: '#fff', border: 'none' }}>
                 {creating && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}Create
               </Button>
             </div>
@@ -87,14 +89,14 @@ export default function ManageCategories() {
 
       <div className="relative max-w-sm">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-        <Input placeholder="Search categories..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-9" />
+        <Input placeholder="Search courses..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-9" />
       </div>
 
       {filtered.length === 0 ? (
         <Card className="border-dashed">
           <CardContent className="flex flex-col items-center justify-center py-12 text-center">
-            <FolderOpen className="h-12 w-12 text-muted-foreground mb-3" />
-            <p className="text-muted-foreground">{search ? 'No matching categories' : 'No categories yet'}</p>
+            <FolderOpen className="h-12 w-12 mb-3" style={{ color: '#0F6E56', opacity: 0.4 }} />
+            <p className="text-muted-foreground">{search ? 'No matching courses' : 'No courses yet'}</p>
           </CardContent>
         </Card>
       ) : (
@@ -103,7 +105,7 @@ export default function ManageCategories() {
             <Card key={c.id} className="group hover:shadow-md transition-shadow">
               <CardHeader className="flex flex-row items-start justify-between pb-2">
                 <CardTitle className="text-base">{c.name}</CardTitle>
-                <Button variant="ghost" size="icon" className="opacity-0 group-hover:opacity-100 transition-opacity text-destructive" onClick={() => handleDelete(c.id)}>
+                <Button variant="ghost" size="icon" className="opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: '#C0322A' }} onClick={() => handleDelete(c.id)}>
                   <Trash2 className="h-4 w-4" />
                 </Button>
               </CardHeader>

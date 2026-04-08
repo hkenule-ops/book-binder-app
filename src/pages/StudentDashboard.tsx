@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { BookOpen, FolderOpen, ExternalLink, Download, Loader2, ArrowLeft, LogOut, Moon, Sun, Search } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import logo from '@/images/mrsoft logo.svg';
 import type { Category, Book } from '@/types';
 
 export default function StudentDashboard() {
@@ -53,22 +54,21 @@ export default function StudentDashboard() {
   const filteredBooks = books.filter((b) => b.title.toLowerCase().includes(search.toLowerCase()));
 
   if (loading) {
-    return <div className="flex items-center justify-center min-h-screen"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>;
+    return <div className="flex items-center justify-center min-h-screen"><Loader2 className="h-8 w-8 animate-spin" style={{ color: '#0F6E56' }} /></div>;
   }
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b border-border sticky top-0 bg-background/95 backdrop-blur z-10">
+      <header className="border-b border-border sticky top-0 bg-background/95 backdrop-blur z-10" style={{ borderBottomColor: 'rgba(15,110,86,0.2)' }}>
         <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <BookOpen className="h-5 w-5 text-primary" />
-            <span className="font-bold">Bookshelf</span>
+            <img src={logo} alt="Logo" className="h-8 w-auto object-contain" />
           </div>
           <div className="flex items-center gap-2">
             <Button variant="ghost" size="icon" onClick={toggleTheme}>
               {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
             </Button>
-            <Button variant="ghost" size="sm" onClick={handleLogout}>
+            <Button variant="ghost" size="sm" style={{ color: '#C0322A' }} onClick={handleLogout}>
               <LogOut className="h-4 w-4 mr-1" />Logout
             </Button>
           </div>
@@ -79,23 +79,26 @@ export default function StudentDashboard() {
         {!selectedCat ? (
           <div className="space-y-6">
             <div>
-              <h1 className="text-2xl font-bold">My Shelves</h1>
-              <p className="text-muted-foreground">Welcome, {user?.email}</p>
+              <h1 className="text-2xl font-bold">My Book Shelf</h1>
+              <p className="text-muted-foreground">Welcome, {user?.name}</p>
             </div>
             {categories.length === 0 ? (
               <Card className="border-dashed">
                 <CardContent className="flex flex-col items-center py-12">
-                  <FolderOpen className="h-12 w-12 text-muted-foreground mb-3" />
+                  <FolderOpen className="h-12 w-12 mb-3" style={{ color: '#0F6E56', opacity: 0.4 }} />
                   <p className="text-muted-foreground">No categories assigned yet</p>
                 </CardContent>
               </Card>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {categories.map((c) => (
-                  <Card key={c.id} className="cursor-pointer hover:shadow-md hover:border-primary/30 transition-all" onClick={() => openCategory(c)}>
+                  <Card key={c.id} className="cursor-pointer hover:shadow-md transition-all" style={{ borderColor: 'transparent' }}
+                    onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(15,110,86,0.3)')}
+                    onMouseLeave={e => (e.currentTarget.style.borderColor = 'transparent')}
+                    onClick={() => openCategory(c)}>
                     <CardHeader>
-                      <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-2">
-                        <FolderOpen className="h-5 w-5 text-primary" />
+                      <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-2" style={{ background: 'rgba(15,110,86,0.1)' }}>
+                        <FolderOpen className="h-5 w-5" style={{ color: '#0F6E56' }} />
                       </div>
                       <CardTitle className="text-lg">{c.name}</CardTitle>
                     </CardHeader>
@@ -110,7 +113,7 @@ export default function StudentDashboard() {
         ) : (
           <div className="space-y-6">
             <div className="flex items-center gap-3">
-              <Button variant="ghost" size="icon" onClick={() => { setSelectedCat(null); setBooks([]); }}>
+              <Button variant="ghost" size="icon" style={{ color: '#0F6E56' }} onClick={() => { setSelectedCat(null); setBooks([]); }}>
                 <ArrowLeft className="h-4 w-4" />
               </Button>
               <div>
@@ -125,11 +128,11 @@ export default function StudentDashboard() {
             </div>
 
             {loadingBooks ? (
-              <div className="flex justify-center py-12"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>
+              <div className="flex justify-center py-12"><Loader2 className="h-8 w-8 animate-spin" style={{ color: '#0F6E56' }} /></div>
             ) : filteredBooks.length === 0 ? (
               <Card className="border-dashed">
                 <CardContent className="flex flex-col items-center py-12">
-                  <BookOpen className="h-12 w-12 text-muted-foreground mb-3" />
+                  <BookOpen className="h-12 w-12 mb-3" style={{ color: '#0F6E56', opacity: 0.4 }} />
                   <p className="text-muted-foreground">{search ? 'No matching books' : 'No books in this category'}</p>
                 </CardContent>
               </Card>
@@ -138,18 +141,18 @@ export default function StudentDashboard() {
                 {filteredBooks.map((b) => (
                   <Card key={b.id} className="hover:shadow-md transition-shadow">
                     <CardHeader>
-                      <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-2">
-                        <BookOpen className="h-5 w-5 text-primary" />
+                      <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-2" style={{ background: 'rgba(15,110,86,0.1)' }}>
+                        <BookOpen className="h-5 w-5" style={{ color: '#0F6E56' }} />
                       </div>
                       <CardTitle className="text-base line-clamp-2">{b.title}</CardTitle>
                     </CardHeader>
                     <CardContent className="flex gap-2">
-                      <Button variant="outline" size="sm" className="flex-1" asChild>
+                      <Button variant="outline" size="sm" className="flex-1" style={{ borderColor: '#0F6E56', color: '#0F6E56' }} asChild>
                         <a href={b.file_url} target="_blank" rel="noopener noreferrer">
                           <ExternalLink className="mr-1 h-3 w-3" />View
                         </a>
                       </Button>
-                      <Button variant="default" size="sm" className="flex-1" asChild>
+                      <Button size="sm" className="flex-1" style={{ background: '#0F6E56', color: '#fff', border: 'none' }} asChild>
                         <a href={getDownloadUrl(b.file_url)} target="_blank" rel="noopener noreferrer">
                           <Download className="mr-1 h-3 w-3" />Download
                         </a>
