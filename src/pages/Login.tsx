@@ -42,18 +42,23 @@ export default function Login() {
         background: 'linear-gradient(135deg, #0a4a38 0%, #0F6E56 60%, #1a5c2a 100%)'
       }}
     >
-      {/* Animated background blobs */}
+      {/* Animated background blobs - faster and more frequent */}
       <div
-        className="absolute top-20 left-10 w-72 h-72 rounded-full mix-blend-multiply filter blur-xl opacity-40 animate-blob"
+        className="absolute top-20 left-10 w-72 h-72 rounded-full mix-blend-multiply filter blur-xl opacity-40 animate-blob-fast"
         style={{ background: '#0F6E56' }}
       />
       <div
-        className="absolute bottom-20 right-10 w-72 h-72 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"
+        className="absolute bottom-20 right-10 w-72 h-72 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob-fast animation-delay-1000"
         style={{ background: '#C0322A' }}
       />
       <div
-        className="absolute top-40 right-40 w-72 h-72 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-4000"
+        className="absolute top-40 right-40 w-72 h-72 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob-fast animation-delay-2000"
         style={{ background: '#8B1A14' }}
+      />
+      {/* Additional blob for more frequency */}
+      <div
+        className="absolute bottom-40 left-1/3 w-56 h-56 rounded-full mix-blend-multiply filter blur-xl opacity-25 animate-blob-fast animation-delay-3000"
+        style={{ background: '#FFB347' }}
       />
 
       <div
@@ -173,15 +178,34 @@ export default function Login() {
       </div>
 
       <style>{`
-        @keyframes blob {
+        @keyframes blob-fast {
           0% { transform: translate(0px, 0px) scale(1); }
-          33% { transform: translate(30px, -50px) scale(1.1); }
-          66% { transform: translate(-20px, 20px) scale(0.9); }
+          25% { transform: translate(40px, -60px) scale(1.15); }
+          50% { transform: translate(-30px, 30px) scale(0.85); }
+          75% { transform: translate(20px, -20px) scale(1.05); }
           100% { transform: translate(0px, 0px) scale(1); }
         }
-        .animate-blob { animation: blob 7s infinite; }
+        
+        @keyframes blob-super-fast {
+          0% { transform: translate(0px, 0px) scale(1); }
+          20% { transform: translate(50px, -70px) scale(1.2); }
+          40% { transform: translate(-40px, 40px) scale(0.8); }
+          60% { transform: translate(30px, -30px) scale(1.1); }
+          80% { transform: translate(-20px, 20px) scale(0.9); }
+          100% { transform: translate(0px, 0px) scale(1); }
+        }
+        
+        .animate-blob-fast { 
+          animation: blob-fast 4s ease-in-out infinite; 
+        }
+        
+        .animate-blob-super-fast { 
+          animation: blob-super-fast 3s ease-in-out infinite; 
+        }
+        
+        .animation-delay-1000 { animation-delay: 1s; }
         .animation-delay-2000 { animation-delay: 2s; }
-        .animation-delay-4000 { animation-delay: 4s; }
+        .animation-delay-3000 { animation-delay: 3s; }
       `}</style>
     </div>
   );
