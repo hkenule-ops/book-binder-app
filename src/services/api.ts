@@ -1,7 +1,7 @@
 import type { ApiResponse, Book, Category, LoginResponse, User } from '@/types';
 
 // Set this to your deployed Google Apps Script Web App URL
-const API_BASE = 'https://script.google.com/macros/s/AKfycbzss0XKqVktU4fjfnczV2FSu31WOZ-aGnRcBbY-ONxik9w6J9TocGti5by-T_4OH2lf/exec';
+const API_BASE = 'https://script.google.com/macros/s/AKfycbyyAA2pKxKMRDdFynse0u1wwIRiKHFOgZiLtYwU1YhzVRM1YCQbrNan8qXGO72y33F7/exec';
 
 async function request<T>(action: string, params: Record<string, unknown> = {}): Promise<ApiResponse<T>> {
   if (!API_BASE) {

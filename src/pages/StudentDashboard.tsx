@@ -21,6 +21,7 @@ export default function StudentDashboard() {
   const [selectedCat, setSelectedCat] = useState<Category | null>(null);
   const [loadingBooks, setLoadingBooks] = useState(false);
   const [search, setSearch] = useState('');
+  const isDark = theme === 'dark';
 
   useEffect(() => {
     async function load() {
@@ -54,12 +55,51 @@ export default function StudentDashboard() {
   const filteredBooks = books.filter((b) => b.title.toLowerCase().includes(search.toLowerCase()));
 
   if (loading) {
-    return <div className="flex items-center justify-center min-h-screen"><Loader2 className="h-8 w-8 animate-spin" style={{ color: '#0F6E56' }} /></div>;
+    return (
+      <div
+        className="flex items-center justify-center min-h-screen"
+        style={{
+          background: isDark
+            ? 'linear-gradient(135deg, #061a12 0%, #0a2a1c 50%, #0d3322 100%)'
+            : 'linear-gradient(135deg, #e8f5f0 0%, #f0faf6 50%, #e4f2eb 100%)',
+        }}
+      >
+        <Loader2 className="h-8 w-8 animate-spin" style={{ color: '#0F6E56' }} />
+      </div>
+    );
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <header className="border-b border-border sticky top-0 bg-background/95 backdrop-blur z-10" style={{ borderBottomColor: 'rgba(15,110,86,0.2)' }}>
+    <div
+      className="min-h-screen relative overflow-hidden"
+      style={{
+        background: isDark
+          ? 'linear-gradient(135deg, #061a12 0%, #0a2a1c 50%, #0d3322 100%)'
+          : 'linear-gradient(135deg, #e8f5f0 0%, #f0faf6 50%, #e4f2eb 100%)',
+      }}
+    >
+      {/* Blobs */}
+      <div
+        className="absolute top-10 left-1/4 w-96 h-96 rounded-full filter blur-3xl pointer-events-none animate-blob-fast"
+        style={{ background: '#0F6E56', opacity: isDark ? 0.35 : 0.45 }}
+      />
+      <div
+        className="absolute bottom-10 right-1/4 w-80 h-80 rounded-full filter blur-3xl pointer-events-none animate-blob-fast animation-delay-2000"
+        style={{ background: '#C0322A', opacity: isDark ? 0.28 : 0.35 }}
+      />
+      <div
+        className="absolute top-1/2 right-10 w-72 h-72 rounded-full filter blur-3xl pointer-events-none animate-blob-fast animation-delay-1000"
+        style={{ background: '#0a4a38', opacity: isDark ? 0.35 : 0.38 }}
+      />
+
+      {/* Header */}
+      <header
+        className="border-b sticky top-0 z-10 backdrop-blur-md"
+        style={{
+          background: isDark ? 'rgba(10, 30, 20, 0.6)' : 'rgba(255, 255, 255, 0.6)',
+          borderBottomColor: isDark ? 'rgba(15,110,86,0.25)' : 'rgba(15,110,86,0.15)',
+        }}
+      >
         <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <img src={logo} alt="Logo" className="h-8 w-auto object-contain" />
@@ -75,7 +115,8 @@ export default function StudentDashboard() {
         </div>
       </header>
 
-      <main className="max-w-5xl mx-auto px-4 py-6 animate-fade-in">
+      {/* Main content */}
+      <main className="max-w-5xl mx-auto px-4 py-6 animate-fade-in relative z-10">
         {!selectedCat ? (
           <div className="space-y-6">
             <div>
@@ -92,10 +133,14 @@ export default function StudentDashboard() {
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {categories.map((c) => (
-                  <Card key={c.id} className="cursor-pointer hover:shadow-md transition-all" style={{ borderColor: 'transparent' }}
+                  <Card
+                    key={c.id}
+                    className="cursor-pointer hover:shadow-md transition-all"
+                    style={{ borderColor: 'transparent' }}
                     onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(15,110,86,0.3)')}
                     onMouseLeave={e => (e.currentTarget.style.borderColor = 'transparent')}
-                    onClick={() => openCategory(c)}>
+                    onClick={() => openCategory(c)}
+                  >
                     <CardHeader>
                       <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-2" style={{ background: 'rgba(15,110,86,0.1)' }}>
                         <FolderOpen className="h-5 w-5" style={{ color: '#0F6E56' }} />
@@ -165,6 +210,19 @@ export default function StudentDashboard() {
           </div>
         )}
       </main>
+
+      <style>{`
+        @keyframes blob-fast {
+          0%   { transform: translate(0px, 0px) scale(1); }
+          25%  { transform: translate(40px, -60px) scale(1.15); }
+          50%  { transform: translate(-30px, 30px) scale(0.85); }
+          75%  { transform: translate(20px, -20px) scale(1.05); }
+          100% { transform: translate(0px, 0px) scale(1); }
+        }
+        .animate-blob-fast { animation: blob-fast 4s ease-in-out infinite; }
+        .animation-delay-1000 { animation-delay: 1s; }
+        .animation-delay-2000 { animation-delay: 2s; }
+      `}</style>
     </div>
   );
 }

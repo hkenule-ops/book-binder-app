@@ -1,17 +1,42 @@
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import { useTheme } from '@/contexts/ThemeContext';
 import logo from '@/images/mrsoft logo.svg';
 
 const NotFound = () => {
   const location = useLocation();
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
 
   useEffect(() => {
     console.error("404 Error: User attempted to access non-existent route:", location.pathname);
   }, [location.pathname]);
 
   return (
-    <div className="flex min-h-screen items-center justify-center" style={{ background: 'linear-gradient(135deg, #0a4a38 0%, #0F6E56 60%, #1a5c2a 100%)' }}>
-      <div className="text-center space-y-4">
+    <div
+      className="flex min-h-screen items-center justify-center relative overflow-hidden"
+      style={{
+        background: isDark
+          ? 'linear-gradient(135deg, #061a12 0%, #0a2a1c 50%, #0d3322 100%)'
+          : 'linear-gradient(135deg, #0a4a38 0%, #0F6E56 60%, #1a5c2a 100%)',
+      }}
+    >
+      {/* Blobs */}
+      <div
+        className="absolute top-10 left-1/4 w-96 h-96 rounded-full filter blur-3xl pointer-events-none animate-blob-fast"
+        style={{ background: '#0F6E56', opacity: isDark ? 0.35 : 0.45 }}
+      />
+      <div
+        className="absolute bottom-10 right-1/4 w-80 h-80 rounded-full filter blur-3xl pointer-events-none animate-blob-fast animation-delay-2000"
+        style={{ background: '#C0322A', opacity: isDark ? 0.28 : 0.35 }}
+      />
+      <div
+        className="absolute top-1/2 right-10 w-72 h-72 rounded-full filter blur-3xl pointer-events-none animate-blob-fast animation-delay-1000"
+        style={{ background: '#0a4a38', opacity: isDark ? 0.35 : 0.38 }}
+      />
+
+      {/* Content */}
+      <div className="text-center space-y-4 relative z-10">
         <div className="flex justify-center mb-6">
           <div className="bg-white/95 rounded-2xl px-4 py-3 shadow-lg">
             <img src={logo} alt="Logo" className="h-10 w-auto object-contain" />
@@ -27,6 +52,19 @@ const NotFound = () => {
           Return to Home
         </a>
       </div>
+
+      <style>{`
+        @keyframes blob-fast {
+          0%   { transform: translate(0px, 0px) scale(1); }
+          25%  { transform: translate(40px, -60px) scale(1.15); }
+          50%  { transform: translate(-30px, 30px) scale(0.85); }
+          75%  { transform: translate(20px, -20px) scale(1.05); }
+          100% { transform: translate(0px, 0px) scale(1); }
+        }
+        .animate-blob-fast { animation: blob-fast 4s ease-in-out infinite; }
+        .animation-delay-1000 { animation-delay: 1s; }
+        .animation-delay-2000 { animation-delay: 2s; }
+      `}</style>
     </div>
   );
 };
