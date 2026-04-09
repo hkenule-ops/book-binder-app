@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import React, { createContext, useContext, useState, useCallback } from 'react';
 import type { User } from '@/types';
 
 interface AuthContextType {
@@ -8,17 +8,24 @@ interface AuthContextType {
   isAdmin: boolean;
   isStudent: boolean;
   isAuthenticated: boolean;
+  isLoading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const [isLoading, setIsLoading] = useState(true);
+
   const [user, setUser] = useState<User | null>(() => {
     try {
       const stored = localStorage.getItem('bookshelf_user');
-      return stored ? JSON.parse(stored) : null;
+      const parsed = stored ? JSON.parse(stored) : null;
+      return parsed;
     } catch {
       return null;
+    } finally {
+      // Runs after the initializer resolves — signals auth is ready
+      setTimeout(() => setIsLoading(false), 0);
     }
   });
 
@@ -41,6 +48,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         isAdmin: user?.role === 'admin',
         isStudent: user?.role === 'student',
         isAuthenticated: !!user,
+        isLoading,
       }}
     >
       {children}
