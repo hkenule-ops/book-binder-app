@@ -4,7 +4,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { api } from '@/services/api';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Eye, EyeOff } from 'lucide-react';
 import { toast } from 'sonner';
 import logo from '@/images/mrsoft logo.svg';
 
@@ -12,6 +12,7 @@ export default function Login() {
   const [email, setEmail] = useState('');
   const [pin, setPin] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showPin, setShowPin] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -42,7 +43,7 @@ export default function Login() {
         background: 'linear-gradient(135deg, #0a4a38 0%, #0F6E56 60%, #1a5c2a 100%)'
       }}
     >
-      {/* Animated background blobs - faster and more frequent */}
+      {/* Animated background blobs */}
       <div
         className="absolute top-20 left-10 w-72 h-72 rounded-full mix-blend-multiply filter blur-xl opacity-40 animate-blob-fast"
         style={{ background: '#0F6E56' }}
@@ -55,7 +56,6 @@ export default function Login() {
         className="absolute top-40 right-40 w-72 h-72 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob-fast animation-delay-2000"
         style={{ background: '#8B1A14' }}
       />
-      {/* Additional blob for more frequency */}
       <div
         className="absolute bottom-40 left-1/3 w-56 h-56 rounded-full mix-blend-multiply filter blur-xl opacity-25 animate-blob-fast animation-delay-3000"
         style={{ background: '#FFB347' }}
@@ -136,18 +136,35 @@ export default function Login() {
                 className="bg-white/50 backdrop-blur-sm border-gray-200 focus:border-[#0F6E56] focus:ring-[#0F6E56]"
               />
             </div>
+
             <div>
               <label className="text-sm font-medium text-gray-700 mb-1.5 block">PIN</label>
-              <Input
-                type="password"
-                placeholder="••••••"
-                value={pin}
-                onChange={(e) => setPin(e.target.value)}
-                maxLength={6}
-                autoComplete="current-password"
-                className="bg-white/50 backdrop-blur-sm border-gray-200 focus:border-[#0F6E56] focus:ring-[#0F6E56]"
-              />
+              <div className="relative">
+                <Input
+                  type={showPin ? 'text' : 'password'}
+                  placeholder="••••••"
+                  value={pin}
+                  onChange={(e) => setPin(e.target.value)}
+                  maxLength={6}
+                  autoComplete="current-password"
+                  className="bg-white/50 backdrop-blur-sm border-gray-200 focus:border-[#0F6E56] focus:ring-[#0F6E56] pr-10"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPin((prev) => !prev)}
+                  className="absolute inset-y-0 right-0 flex items-center px-3 text-gray-400 hover:text-gray-600 transition-colors"
+                  tabIndex={-1}
+                  aria-label={showPin ? 'Hide PIN' : 'Show PIN'}
+                >
+                  {showPin ? (
+                    <EyeOff className="h-4 w-4" />
+                  ) : (
+                    <Eye className="h-4 w-4" />
+                  )}
+                </button>
+              </div>
             </div>
+
             <Button
               type="submit"
               className="w-full font-semibold transition-all duration-200 hover:scale-105"
